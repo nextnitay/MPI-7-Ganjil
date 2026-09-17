@@ -1,0 +1,1729 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#071a38" />
+    <title>MPI Informatika Kelas VII — Semester Ganjil</title>
+    <style>
+      :root {
+        --bg: #06152f;
+        --bg2: #0a2145;
+        --card: #0d2a54;
+        --text: #eef6ff;
+        --muted: #aac2df;
+        --primary: #38bdf8;
+        --primary2: #2563eb;
+        --cyan: #67e8f9;
+        --line: rgba(148, 196, 255, 0.18);
+        --good: #39d98a;
+        --bad: #ff6b7a;
+        --r: 24px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        color: var(--text);
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        background:
+          radial-gradient(
+            circle at 15% -5%,
+            rgba(56, 189, 248, 0.2),
+            transparent 32%
+          ),
+          radial-gradient(
+            circle at 95% 10%,
+            rgba(37, 99, 235, 0.18),
+            transparent 30%
+          ),
+          linear-gradient(180deg, var(--bg), #071a38 55%, #041127);
+        min-height: 100vh;
+        padding-bottom: 92px;
+        overflow-x: hidden;
+      }
+      button {
+        font: inherit;
+      }
+      .container {
+        width: min(calc(100% - 28px), 1080px);
+        margin: auto;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(6, 21, 47, 0.82);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--line);
+      }
+      .topbar-in {
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 13px;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--primary), var(--primary2));
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+      }
+      .brand small {
+        display: block;
+        color: var(--muted);
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .brand strong {
+        font-size: 14px;
+      }
+      .hero {
+        padding: 34px 0 14px;
+      }
+      .hero-card {
+        position: relative;
+        overflow: hidden;
+        background:
+          linear-gradient(
+            140deg,
+            rgba(56, 189, 248, 0.1),
+            rgba(37, 99, 235, 0.03)
+          ),
+          rgba(8, 28, 58, 0.78);
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        padding: 28px 22px;
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+      }
+      .hero-card:after {
+        content: "";
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        right: -90px;
+        bottom: -130px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(56, 189, 248, 0.25),
+          transparent 65%
+        );
+      }
+      .kicker,
+      .hero-kicker {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 11px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--cyan);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+      }
+      .hero h1 {
+        font-size: clamp(31px, 8vw, 54px);
+        line-height: 1.03;
+        margin: 16px 0 12px;
+        max-width: 780px;
+      }
+      .hero p,
+      .hero-card p,
+      .card p,
+      .card li {
+        color: #cfe1f7;
+        line-height: 1.72;
+        font-size: 14px;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .btn {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 12px 16px;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.045);
+        cursor: pointer;
+      }
+      .primary {
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--primary2), #0ea5e9);
+        box-shadow: 0 10px 26px rgba(37, 99, 235, 0.3);
+      }
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+        margin-top: 18px;
+      }
+      .kpi {
+        padding: 13px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.035);
+        border: 1px solid var(--line);
+      }
+      .kpi strong {
+        display: block;
+        font-size: 23px;
+      }
+      .kpi span {
+        color: var(--muted);
+        font-size: 10px;
+      }
+      .section {
+        padding: 16px 0;
+      }
+      .head {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: end;
+        margin-bottom: 13px;
+      }
+      .head h2 {
+        margin: 0;
+        font-size: 23px;
+      }
+      .head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .cards {
+        display: grid;
+        gap: 13px;
+      }
+      .cards.two {
+        grid-template-columns: 1fr;
+      }
+      .cards.three {
+        grid-template-columns: 1fr;
+      }
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(16, 53, 101, 0.78),
+          rgba(10, 38, 76, 0.8)
+        );
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        padding: 17px;
+        box-shadow: 0 8px 26px rgba(0, 0, 0, 0.18);
+      }
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      .icon {
+        width: 22px;
+        height: 22px;
+      }
+      .icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 13px;
+        background: linear-gradient(
+          135deg,
+          rgba(56, 189, 248, 0.18),
+          rgba(37, 99, 235, 0.24)
+        );
+        border: 1px solid var(--line);
+        font-size: 22px;
+      }
+      .callout {
+        border-left: 3px solid var(--primary);
+        padding: 12px 13px;
+        background: rgba(56, 189, 248, 0.07);
+        border-radius: 0 14px 14px 0;
+        margin-top: 11px;
+      }
+      .timeline {
+        display: grid;
+        gap: 12px;
+      }
+      .step {
+        display: grid;
+        grid-template-columns: 38px 1fr;
+        gap: 11px;
+      }
+      .step-num {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, var(--primary2), var(--primary));
+        font-weight: 900;
+      }
+      .step h4 {
+        margin: 1px 0 4px;
+      }
+      .step p {
+        margin: 0;
+      }
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+      }
+      table {
+        width: 100%;
+        min-width: 520px;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+        font-size: 13px;
+        text-align: left;
+      }
+      th {
+        color: var(--cyan);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      td {
+        color: #d4e4f6;
+      }
+      .keyboard {
+        display: grid;
+        gap: 5px;
+        padding: 12px;
+        border-radius: 18px;
+        background: rgba(0, 8, 23, 0.36);
+        border: 1px solid var(--line);
+        overflow: hidden;
+      }
+      .keyrow {
+        display: flex;
+        gap: 5px;
+      }
+      .key {
+        flex: 1;
+        min-width: 0;
+        padding: 8px 2px;
+        text-align: center;
+        border-radius: 7px;
+        background: #13345f;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        font-size: 10px;
+      }
+      .w2 {
+        flex: 2;
+      }
+      .w5 {
+        flex: 5;
+      }
+      .pills {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 3px;
+      }
+      .pill {
+        flex: 0 0 auto;
+        padding: 9px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.035);
+        color: #d9ecff;
+        font-size: 12px;
+      }
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: block;
+      }
+      .bottom-nav {
+        position: fixed;
+        z-index: 100;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 8px max(10px, env(safe-area-inset-left))
+          max(10px, env(safe-area-inset-bottom));
+        background: rgba(3, 13, 29, 0.92);
+        backdrop-filter: blur(18px);
+        border-top: 1px solid var(--line);
+      }
+      .nav-in {
+        width: min(100%, 680px);
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+      }
+      .nav-btn {
+        border: 0;
+        background: transparent;
+        color: #7f9bb9;
+        padding: 8px 3px;
+        border-radius: 14px;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        gap: 3px;
+        font-size: 9px;
+      }
+      .nav-btn .nicon {
+        font-size: 19px;
+        line-height: 1;
+      }
+      .nav-btn.active {
+        color: var(--cyan);
+        background: rgba(56, 189, 248, 0.09);
+      }
+      .float {
+        position: fixed;
+        right: 14px;
+        bottom: 92px;
+        z-index: 90;
+      }
+      .quiz-meta {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .progress {
+        height: 9px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 999px;
+        overflow: hidden;
+        margin: 9px 0 16px;
+      }
+      .progress span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary2), var(--cyan));
+        transition: width 0.2s;
+      }
+      .answers {
+        display: grid;
+        gap: 10px;
+        margin-top: 15px;
+      }
+      .answer {
+        width: 100%;
+        text-align: left;
+        border: 1px solid var(--line);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.035);
+        padding: 14px;
+        border-radius: 16px;
+        cursor: pointer;
+      }
+      .answer.good {
+        border-color: rgba(57, 217, 138, 0.58);
+        background: rgba(57, 217, 138, 0.14);
+      }
+      .answer.bad {
+        border-color: rgba(255, 107, 122, 0.65);
+        background: rgba(255, 107, 122, 0.13);
+      }
+      .score {
+        text-align: center;
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: linear-gradient(
+          180deg,
+          rgba(56, 189, 248, 0.08),
+          rgba(37, 99, 235, 0.08)
+        );
+      }
+      .score strong {
+        display: block;
+        font-size: 48px;
+      }
+      .note {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      footer {
+        padding: 22px 0 8px;
+        text-align: center;
+        color: #7391b0;
+        font-size: 11px;
+      }
+      @media (min-width: 700px) {
+        .cards.two {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .cards.three {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .hero-card {
+          padding: 36px;
+        }
+        .bottom-nav {
+          left: 50%;
+          right: auto;
+          transform: translateX(-50%);
+          width: min(92%, 700px);
+          border: 1px solid var(--line);
+          border-radius: 22px 22px 0 0;
+        }
+      }
+      @media (max-width: 420px) {
+        .container {
+          width: min(calc(100% - 20px), 1080px);
+        }
+        .hero-card {
+          padding: 22px 17px;
+        }
+        .hero h1 {
+          font-size: 31px;
+        }
+        .kpis {
+          gap: 6px;
+        }
+        .kpi {
+          padding: 10px;
+        }
+        .kpi strong {
+          font-size: 20px;
+        }
+        .card {
+          padding: 15px;
+        }
+      }
+
+      /* White + futuristic blue theme override */
+      :root {
+        --bg: #f6faff;
+        --bg2: #eef7ff;
+        --card: #ffffff;
+        --card2: #f4f9ff;
+        --text: #10233f;
+        --muted: #60758f;
+        --primary: #2563eb;
+        --primary2: #0ea5e9;
+        --cyan: #0284c7;
+        --line: rgba(37, 99, 235, 0.14);
+        --good: #16a34a;
+        --bad: #ef4444;
+      }
+      body {
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at 8% -4%,
+            rgba(14, 165, 233, 0.15),
+            transparent 27%
+          ),
+          radial-gradient(
+            circle at 100% 8%,
+            rgba(37, 99, 235, 0.11),
+            transparent 25%
+          ),
+          linear-gradient(180deg, #f9fcff 0%, #f3f8ff 58%, #ffffff 100%);
+      }
+      .topbar {
+        background: rgba(255, 255, 255, 0.88);
+        border-bottom: 1px solid var(--line);
+      }
+      .brand small,
+      .hero p,
+      .hero-card p,
+      .card p,
+      .card li {
+        color: #58708d;
+      }
+      .hero-card {
+        background:
+          linear-gradient(
+            135deg,
+            rgba(37, 99, 235, 0.055),
+            rgba(14, 165, 233, 0.025)
+          ),
+          rgba(255, 255, 255, 0.96);
+        border-color: var(--line);
+        box-shadow: 0 18px 45px rgba(31, 91, 168, 0.1);
+      }
+      .hero-card:after {
+        background: radial-gradient(
+          circle,
+          rgba(14, 165, 233, 0.16),
+          transparent 65%
+        );
+      }
+      .kicker,
+      .hero-kicker {
+        background: rgba(37, 99, 235, 0.055);
+        color: #0369a1;
+        border-color: var(--line);
+      }
+      .btn {
+        color: #173355;
+        background: #fff;
+        border-color: rgba(37, 99, 235, 0.16);
+        box-shadow: 0 5px 16px rgba(31, 91, 168, 0.06);
+      }
+      .primary {
+        color: #fff;
+        background: linear-gradient(135deg, #2563eb, #0ea5e9);
+        border-color: transparent;
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.22);
+      }
+      .card {
+        background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+        border-color: var(--line);
+        box-shadow: 0 8px 26px rgba(31, 91, 168, 0.07);
+      }
+      .icon-box {
+        background: linear-gradient(
+          135deg,
+          rgba(37, 99, 235, 0.09),
+          rgba(14, 165, 233, 0.12)
+        );
+        border-color: var(--line);
+      }
+      .callout {
+        background: rgba(14, 165, 233, 0.055);
+      }
+      .kpi {
+        background: rgba(255, 255, 255, 0.78);
+        border-color: var(--line);
+      }
+      .kpi span,
+      .head p,
+      .note {
+        color: #6b819a;
+      }
+      th,
+      td {
+        border-bottom-color: var(--line);
+      }
+      th {
+        background: #f4f8ff;
+        color: #0369a1;
+      }
+      td {
+        color: #48627e;
+      }
+      .table-wrap {
+        border-color: var(--line);
+      }
+      .pill {
+        background: #f5f9ff;
+        color: #24507d;
+        border-color: var(--line);
+      }
+      .keyboard {
+        background: #eef6ff;
+        border-color: var(--line);
+      }
+      .key {
+        background: linear-gradient(180deg, #fff, #e8f2ff);
+        color: #174477;
+        border-color: rgba(37, 99, 235, 0.12);
+        box-shadow: 0 2px 5px rgba(37, 99, 235, 0.06);
+      }
+      .bottom-nav {
+        background: rgba(255, 255, 255, 0.94);
+        border-top-color: var(--line);
+        box-shadow: 0 -10px 28px rgba(31, 91, 168, 0.08);
+      }
+      .nav-btn {
+        color: #7187a0;
+      }
+      .nav-btn.active {
+        color: #0369a1;
+        background: rgba(37, 99, 235, 0.07);
+      }
+      .answer {
+        color: #173355;
+        background: #fff;
+        border-color: var(--line);
+      }
+      .score {
+        background: linear-gradient(
+          180deg,
+          rgba(37, 99, 235, 0.055),
+          rgba(14, 165, 233, 0.045)
+        );
+        border-color: var(--line);
+      }
+      footer {
+        color: #7890a9;
+      }
+    
+/* Responsive table fix: on small screens, "Tombol Penting" becomes stacked cards. */
+@media (max-width: 600px) {
+  .table-wrap { overflow: visible; border: 0; border-radius: 0; }
+  .table-wrap table { width: 100%; min-width: 0; display: block; border-collapse: separate; }
+  .table-wrap thead { display: none; }
+  .table-wrap tbody { display: grid; gap: 10px; }
+  .table-wrap tbody tr {
+    display: block; margin: 0; padding: 0;
+    border: 1px solid var(--line); border-radius: 16px;
+    background: #fff; box-shadow: 0 5px 16px rgba(31, 91, 168, 0.06);
+    overflow: hidden;
+  }
+  .table-wrap tbody td {
+    display: grid; grid-template-columns: 86px minmax(0, 1fr); gap: 10px;
+    width: 100%; min-width: 0; padding: 11px 12px;
+    border: 0; border-bottom: 1px solid rgba(37, 99, 235, 0.08);
+    overflow-wrap: anywhere; word-break: normal;
+  }
+  .table-wrap tbody td:last-child { border-bottom: 0; }
+  .table-wrap tbody td::before {
+    font-weight: 800; color: #0369a1; font-size: 12px; line-height: 1.5;
+  }
+  .table-wrap tbody td:first-child::before { content: "Tombol"; }
+  .table-wrap tbody td:nth-child(2)::before { content: "Fungsi"; }
+  .table-wrap tbody td { color: #48627e; font-size: 13px; line-height: 1.65; }
+}
+@media (max-width: 360px) {
+  .table-wrap tbody td { grid-template-columns: 76px minmax(0, 1fr); gap: 8px; padding: 10px; font-size: 12px; }
+  .table-wrap tbody td::before { font-size: 11px; }
+}
+
+</style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-in container">
+        <div class="brand">
+          <div class="brand-mark">7</div>
+          <div>
+            <small>Media Pembelajaran Interaktif</small
+            ><strong>Informatika Semester Ganjil</strong>
+          </div>
+        </div>
+        <span class="hero-kicker">Jhonitay</span>
+      </div>
+    </header>
+    <main class="container">
+      <section id="home" class="page active">
+        <div class="hero">
+          <div class="hero-card">
+            <span class="kicker">BELAJAR DENGAN CARA TERSTRUKTUR</span>
+            <h1>Informatika Kelas VII</h1>
+            <p>
+              Media pembelajaran interaktif untuk belajar dengan lebih asik dan modern bersama <br> Komang Nitay Prasaddas, S.Kom
+            </p>
+            <div class="hero-actions">
+              <button class="btn primary" onclick="go('ct')">
+                Mulai Belajar</button
+              ><button class="btn" onclick="go('quiz')">Coba Kuis</button>
+            </div>
+          
+          </div>
+        </div>
+        <section class="section">
+          <div class="head">
+            <div>
+              <h2>Subject</h2>
+            </div>
+          </div>
+          <div class="cards three">
+            <article class="card" onclick="go('ct')">
+              <div class="icon-box">🧠</div>
+              <h3>Berpikir Komputasional</h3>
+              <p>
+                Empat pilar: dekomposisi, pengenalan pola, abstraksi, dan
+                algoritma.
+              </p>
+            </article>
+            <article class="card" onclick="go('keyboard')">
+              <div class="icon-box">⌨️</div>
+              <h3>Keyboard</h3>
+              <p>
+                Mengenal bagian keyboard, QWERTY, tombol penting, angka, simbol,
+                dan fungsi dasar.
+              </p>
+            </article>
+            <article class="card" onclick="go('word')">
+              <div class="icon-box">📄</div>
+              <h3>Microsoft Word</h3>
+              <p>
+                Mengenal tools pada Ribbon dan fungsi Font Tools untuk
+                pengaturan teks.
+              </p>
+            </article>
+          </div>
+        </section>
+        <section class="section">
+          <div class="head">
+            <div>
+              <h2>Learning Flow</h2>
+              <p>Belajar → pahami → latihan.</p>
+            </div>
+          </div>
+          <div class="card timeline">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div>
+                <h4>Pahami konsep</h4>
+                <p>Mulai dari definisi dan fungsi setiap materi.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div>
+                <h4>Lihat contoh</h4>
+                <p>
+                  Hubungkan konsep dengan aktivitas sehari-hari dan penggunaan
+                  komputer.
+                </p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div>
+                <h4>Uji pemahaman</h4>
+                <p>Kerjakan lima soal acak dan lihat skor hasil belajar.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer>Disusun oleh Komang Nitay Prasaddas, S.Kom.</footer>
+      </section>
+      <section id="ct" class="page">
+        <div class="section">
+          <div class="hero-card">
+            <h1>🧠 <br>Berpikir Komputasional </h1>
+            <p>
+              Metode pemecahan masalah untuk menemukan solusi yang efektif,
+              efisien, dan optimal dengan pendekatan berpikir layaknya seorang
+              ilmuwan komputer.
+            </p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="head">
+            <div>
+              <h2>Definisi</h2>
+            </div>
+          </div>
+          <div class="card">
+            <p>
+              <strong
+                >Berpikir Komputasional adalah metode pemecahan masalah (problem
+                solving) yang dirancang untuk menemukan solusi yang efektif,
+                efisien, dan optimal, dengan menggunakan pendekatan berpikir
+                layaknya seorang ilmuwan komputer (computer scientist).</strong
+              >
+            </p>
+            <div class="callout">
+              Catatan: Berpikir komputasional bukan berarti kita harus
+              memprogram atau menggunakan komputer, melainkan melatih cara
+              berpikir logis, terstruktur, dan analitis dalam menghadapi masalah
+              sehari-hari.
+            </div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="head">
+            <div>
+              <h2>4 Pilar Utama</h2>
+              <p>Fondasi berpikir komputasional.</p>
+            </div>
+          </div>
+          <div class="cards two">
+            <article class="card">
+              <div class="icon-box">🧩</div>
+              <h3>1. Dekomposisi</h3>
+              <p>
+                Dekomposisi adalah kemampuan memecah suatu masalah atau sistem
+                yang besar, kompleks, atau rumit menjadi bagian-bagian yang
+                lebih kecil, sederhana, dan lebih mudah dikelola serta
+                diselesaikan satu per satu.
+              </p>
+            </article>
+            <article class="card">
+              <div class="icon-box">🔎</div>
+              <h3>2. Pengenalan Pola</h3>
+              <p>
+                Pengenalan Pola adalah proses mengamati kesamaan, keteraturan,
+                atau pola yang berulang di antara masalah-masalah atau data yang
+                ada. Dengan menemukan pola yang sama, kita dapat memanfaatkan
+                pengalaman atau solusi dari masalah masa lalu untuk memecahkan
+                masalah baru.
+              </p>
+            </article>
+            <article class="card">
+              <div class="icon-box">🎯</div>
+              <h3>3. Abstraksi</h3>
+              <p>
+                Abstraksi adalah proses menyaring informasi dengan hanya
+                berfokus pada hal-hal yang penting dan relevan dengan tujuan
+                pemecahan masalah, serta mengabaikan detail-detail kecil yang
+                tidak penting atau tidak berdampak langsung terhadap solusi.
+              </p>
+            </article>
+            <article class="card">
+              <div class="icon-box">⚙️</div>
+              <h3>4. Algoritma</h3>
+              <p>
+                Algoritma adalah proses merumuskan serangkaian instruksi,
+                langkah-langkah, atau aturan yang terurut, logis, dan jelas
+                secara bertahap (step-by-step) untuk memecahkan masalah atau
+                mencapai hasil akhir yang diinginkan.
+              </p>
+            </article>
+          </div>
+        </section>
+        <section class="section">
+          <div class="head">
+            <div>
+              <h2>Contoh Kasus</h2>
+              <p>Merapikan dan mengorganisasi kamar tidur yang berantakan.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="callout">
+              <strong>Dekomposisi:</strong> Membagi tugas merapikan kamar
+              menjadi bagian-bagian kecil: merapikan tempat tidur, melipat
+              pakaian, menyusun buku di meja belajar, dan menyapu/mengepel
+              lantai.
+            </div>
+            <div class="callout">
+              <strong>Pengenalan Pola:</strong> Menyadari pola barang-barang
+              yang ada: baju seragam selalu digantung, baju santai dilipat ke
+              lemari, buku pelajaran dikelompokkan berdasarkan mata pelajaran,
+              dan sampah dibuang ke tempat sampah.
+            </div>
+            <div class="callout">
+              <strong>Abstraksi:</strong> Fokus pada kebersihan dan keteraturan
+              letak barang. Mengabaikan hal-hal yang tidak penting saat itu,
+              misalnya jenis debu, warna gantungan baju, atau label merk pada
+              buku tulis.
+            </div>
+            <div class="callout">
+              <strong>Algoritma:</strong> Menyusun langkah kerja terurut: (1)
+              Angkat pakaian kotor ke keranjang cucian; (2) Rapikan sprei dan
+              bantal; (3) Susun buku di rak; (4) Sapu lantai dari sudut kamar ke
+              arah pintu; (5) Pel lantai hingga bersih.
+            </div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="card">
+            <div class="icon-box">💡</div>
+            <h3>Intisari Pembelajaran</h3>
+            <p>
+              Dengan menerapkan keempat pilar berpikir komputasional, masalah
+              serumit apa pun dapat diselesaikan dengan lebih cepat,
+              terstruktur, dan hemat tenaga.
+            </p>
+          </div>
+        </section>
+      </section>
+      <section id="keyboard" class="page">
+        <div class="section">
+          <div class="hero-card">
+            <h1>⌨️ <br> Mengetik & Perangkat Keyboard </h1>
+            <p>
+              Mengenal keyboard sebagai perangkat input, susunan tombol, QWERTY,
+              angka, simbol, dan tombol-tombol penting.
+            </p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="cards two">
+            <article class="card">
+              <div class="icon-box">⌨️</div>
+              <h3>Pengertian Keyboard</h3>
+              <p>
+                Keyboard (papan ketik) adalah perangkat keras masukan (hardware
+                input) utama pada komputer atau laptop yang berisi deretan
+                tombol huruf, angka, simbol, dan fungsi kontrol lainnya yang
+                digunakan untuk memasukkan data teks atau memberikan perintah ke
+                sistem komputer.
+              </p>
+            </article>
+            <article class="card">
+              <div class="icon-box">⚡</div>
+              <h3>Fungsi Keyboard</h3>
+              <ul>
+                <li>
+                  Memasukkan data berupa huruf, angka, spasi, dan tanda baca ke
+                  dalam dokumen atau aplikasi.
+                </li>
+                <li>
+                  Menjalankan perintah pintasan (shortcut keyboard), seperti
+                  Ctrl+C (salin), Ctrl+V (tempel), dan Ctrl+S (simpan).
+                </li>
+                <li>
+                  Membantu navigasi pada layar monitor (menggeser kursor ke
+                  atas, bawah, kanan, kiri) tanpa menggunakan mouse.
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+        <section class="section">
+          <div class="head">
+            <div>
+              <h2>Bagian-Bagian Keyboard</h2>
+              <p>Kenali area tombol utama.</p>
+            </div>
+          </div>
+          <div class="cards two">
+            <article class="card">
+              <h3>Typewriter Keys (Tombol Ketik Utama)</h3>
+              <p>
+                Berisi huruf A–Z, tanda baca, spasi, dan tombol Shift/Caps Lock.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Numeric Keypad (Tombol Angka Khusus)</h3>
+              <p>
+                Deretan angka dan operator aritmatika di sisi kanan yang
+                menyerupai kalkulator (umum pada keyboard desktop/laptop besar).
+              </p>
+            </article>
+            <article class="card">
+              <h3>Function Keys (Tombol Fungsi F1–F12)</h3>
+              <p>
+                Tombol di baris paling atas yang memiliki fungsi spesifik,
+                misalnya F1 untuk Bantuan/Help dan F5 untuk Refresh.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Control / Navigation Keys</h3>
+              <p>
+                Tombol navigasi dan kontrol seperti tombol panah (Arrow keys),
+                Home, End, Page Up, Page Down, Esc, Ctrl, dan Alt.
+              </p>
+            </article>
+          </div>
+        </section>
+        <section class="section">
+          <div class="card">
+            <h3>Susunan Huruf QWERTY</h3>
+            <p>
+              Susunan huruf pada keyboard standar disebut susunan QWERTY,
+              diambil dari enam huruf pertama pada baris teratas huruf
+              (Q-W-E-R-T-Y). Tata letak ini diciptakan oleh Christopher Latham
+              Sholes pada tahun 1873 untuk mesin tik mekanik, dirancang untuk
+              mencegah tuas mekanik tersangkut akibat pengetikan huruf yang
+              terlalu cepat berdampingan, dan kini menjadi standar internasional
+              keyboard di seluruh dunia.
+            </p>
+            <div class="keyboard">
+              <div class="keyrow">
+                <div class="key">Q</div>
+                <div class="key">W</div>
+                <div class="key">E</div>
+                <div class="key">R</div>
+                <div class="key">T</div>
+                <div class="key">Y</div>
+                <div class="key">U</div>
+                <div class="key">I</div>
+                <div class="key">O</div>
+                <div class="key">P</div>
+              </div>
+              <div class="keyrow">
+                <div class="key">A</div>
+                <div class="key">S</div>
+                <div class="key">D</div>
+                <div class="key">F</div>
+                <div class="key">G</div>
+                <div class="key">H</div>
+                <div class="key">J</div>
+                <div class="key">K</div>
+                <div class="key">L</div>
+              </div>
+              <div class="keyrow">
+                <div class="key w2">SHIFT</div>
+                <div class="key">Z</div>
+                <div class="key">X</div>
+                <div class="key">C</div>
+                <div class="key">V</div>
+                <div class="key">B</div>
+                <div class="key">N</div>
+                <div class="key">M</div>
+                <div class="key w2">SHIFT</div>
+              </div>
+              <div class="keyrow">
+                <div class="key w2">CTRL</div>
+                <div class="key">ALT</div>
+                <div class="key w5">SPACE</div>
+                <div class="key w2">ALT</div>
+                <div class="key w2">ENTER</div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="cards two">
+            <article class="card">
+              <h3>Tombol Angka</h3>
+              <p>
+                Tombol angka (Number Keys 0–9) terdapat di dua tempat: baris
+                atas di bawah jajaran tombol F1–F12, serta pada area Numpad (di
+                sebelah kanan). Tombol angka baris atas juga memuat karakter
+                simbol jika ditekan bersamaan dengan tombol Shift.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Tombol Simbol</h3>
+              <p>
+                Tombol simbol mencakup tanda baca (titik [.], koma [,], titik
+                dua [:], tanda tanya [?]), simbol matematika (+, -, *, /), serta
+                karakter khusus (@, #, $, %, &, *, !). Untuk mengetik simbol
+                bagian atas pada suatu tombol, tekan dan tahan tombol Shift
+                sambil menekan tombol simbol yang diinginkan.
+              </p>
+            </article>
+          </div>
+        </section>
+        <section class="section">
+          <div class="head">
+            <div>
+              <h2>Tombol Penting</h2>
+              <p>Fungsi yang perlu dikuasai.</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tombol</th>
+                  <th>Fungsi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Enter</td>
+                  <td>
+                    Digunakan untuk berpindah ke baris baru (paragraf baru)
+                    dalam pengetikan dokumen, atau untuk
+                    menjalankan/mengonfirmasi perintah yang dipilih.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Spacebar</td>
+                  <td>
+                    Tombol paling panjang di bagian bawah keyboard yang
+                    berfungsi untuk memberikan jarak satu spasi antarkata atau
+                    antarkarakter.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Backspace</td>
+                  <td>
+                    Berfungsi untuk menghapus satu karakter di sebelah kiri
+                    (sebelum) kursor pengetikan.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Delete</td>
+                  <td>
+                    Berfungsi untuk menghapus satu karakter di sebelah kanan
+                    (setelah) kursor pengetikan, atau menghapus berkas/objek
+                    yang dipilih.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Shift</td>
+                  <td>
+                    Digunakan bersamaan dengan tombol huruf untuk membuat huruf
+                    kapital sementara, atau bersama tombol angka/simbol untuk
+                    menampilkan simbol bagian atas.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Caps Lock</td>
+                  <td>
+                    Tombol pengunci huruf kapital. Jika aktif, semua huruf yang
+                    diketik otomatis menjadi HURUF BESAR/KAPITAL terus-menerus.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      <section id="word" class="page">
+        <div class="section">
+          <div class="hero-card">
+            <h1>📄 <br> Pengenalan Tools Microsoft Word</h1>
+            <p>
+              Mengenal sekumpulan ikon tombol, perintah, dan fungsi pada Ribbon
+              untuk membuat, menyunting, memformat, mengatur tata letak, dan
+              menyempurnakan tampilan dokumen teks digital.
+            </p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="card">
+            <div class="icon-box">📄</div>
+            <h3>Definisi Tools pada Microsoft Word</h3>
+            <p>
+              Tools (alat bantu kerja / fitur) pada Microsoft Word adalah
+              sekumpulan ikon tombol, perintah, dan fungsi yang terdapat di
+              dalam pita menu (Ribbon) yang digunakan pengguna untuk membuat,
+              menyunting (mengedit), memformat, mengatur tata letak, dan
+              menyempurnakan tampilan dokumen teks digital secara cepat dan
+              profesional.
+            </p>
+          </div>
+        </section>
+        <section class="section">
+          <div class="head">
+            <div>
+              <h2>Font Tools</h2>
+              <p>Grup Pengaturan Huruf / Teks pada tab Home.</p>
+            </div>
+          </div>
+          <div class="cards two">
+            <article class="card">
+              <h3>Font Style / Family</h3>
+              <p>
+                Memilih jenis rupa huruf, contoh: Calibri, Times New Roman,
+                Arial.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Font Size</h3>
+              <p>
+                Menentukan ukuran besar/kecilnya huruf (satuan point, misal: 11
+                pt, 12 pt).
+              </p>
+            </article>
+            <article class="card">
+              <h3>Bold (Ctrl + B)</h3>
+              <p>Menebalkan teks untuk memberi penegasan.</p>
+            </article>
+            <article class="card">
+              <h3>Italic (Ctrl + I)</h3>
+              <p>
+                Memiringkan teks, sering digunakan untuk istilah asing atau
+                kutipan.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Underline (Ctrl + U)</h3>
+              <p>Memberi garis bawah pada teks terpilih.</p>
+            </article>
+            <article class="card">
+              <h3>Font Color</h3>
+              <p>Mengubah warna teks sesuai kebutuhan.</p>
+            </article>
+            <article class="card">
+              <h3>Font background / highlight</h3>
+              <p>Memberi warna latar belakang pada teks layaknya stabilo.</p>
+            </article>
+          </div>
+        </section>
+        <section class="section">
+          <div class="card">
+            <h3>Shortcut yang ada pada materi</h3>
+            <div class="pills">
+              <span class="pill">Ctrl + B → Bold</span
+              ><span class="pill">Ctrl + I → Italic</span
+              ><span class="pill">Ctrl + U → Underline</span
+              ><span class="pill">Ctrl + C → Copy</span
+              ><span class="pill">Ctrl + V → Paste</span
+              ><span class="pill">Ctrl + S → Save</span>
+            </div>
+          </div>
+        </section>
+      </section>
+      <section id="quiz" class="page">
+        <div class="section">
+          <div class="hero-card">
+            <h1>Kuis Interaktif</h1>
+            <p>
+              Come on broo, lets go broo kita test kemampuan kalian 😎.
+            </p>
+          </div>
+        </div>
+        <div class="section"><div id="quiz-card" class="card"></div></div>
+      </section>
+    </main>
+    <nav class="bottom-nav">
+      <div class="nav-in">
+        <button class="nav-btn active" data-page="home" onclick="go('home')">
+          <span class="nicon">⌂</span><span>Home</span></button
+        ><button class="nav-btn" data-page="ct" onclick="go('ct')">
+          <span class="nicon">🧠</span><span>Komputasional</span></button
+        ><button class="nav-btn" data-page="keyboard" onclick="go('keyboard')">
+          <span class="nicon">⌨</span><span>Keyboard</span></button
+        ><button class="nav-btn" data-page="word" onclick="go('word')">
+          <span class="nicon">▤</span><span>Word</span></button
+        ><button class="nav-btn" data-page="quiz" onclick="go('quiz')">
+          <span class="nicon">📝</span><span>Kuis</span>
+        </button>
+      </div>
+    </nav>
+    <div class="float">
+      <button class="btn primary" onclick="go('quiz')">📝 Kuis</button>
+    </div>
+    <script>
+      const bank = [
+        [
+          "Saat merapikan kamar tidur yang berantakan, langkah awal membagi tugas besar menjadi tugas-tugas kecil seperti merapikan tempat tidur, melipat pakaian, dan menyapu lantai merupakan penerapan pilar...",
+          ["Pengenalan Pola", "Dekomposisi", "Abstraksi", "Algoritma"],
+          1,
+        ],
+        [
+          "Ketika seseorang menyadari bahwa baju seragam selalu digantung dan buku pelajaran dikelompokkan berdasarkan mata pelajaran saat merapikan kamar, ia sedang menggunakan pilar...",
+          ["Dekomposisi", "Algoritma", "Pengenalan Pola", "Abstraksi"],
+          2,
+        ],
+        [
+          "Saat merapikan kamar, fokus hanya pada kebersihan dan keteraturan letak barang serta mengabaikan jenis debu atau label merk pada buku merupakan contoh penerapan dari...",
+          ["Abstraksi", "Pengenalan Pola", "Dekomposisi", "Otomasi"],
+          0,
+        ],
+        [
+          "Menyusun langkah kerja merapikan kamar secara berurutan mulai dari mengangkat pakaian kotor, merapikan sprei, menyusun buku, hingga menyapu dan mengepel lantai disebut sebagai...",
+          ["Dekomposisi", "Algoritma", "Abstraksi", "Pola data"],
+          1,
+        ],
+        [
+          "Metode pemecahan masalah yang dirancang untuk menemukan solusi yang efektif, efisien, dan optimal layaknya seorang ilmuwan komputer disebut...",
+          [
+            "Berpikir Logika",
+            "Berpikir Komputasional",
+            "Berpikir Algoritmik",
+            "Berpikir Praktis",
+          ],
+          1,
+        ],
+        [
+          "Pernyataan yang paling tepat mengenai berpikir komputasional adalah...",
+          [
+            "Mengharuskan seseorang mahir menulis kode program komputer",
+            "Hanya dapat dilakukan jika menggunakan perangkat komputer canggih",
+            "Melatih cara berpikir logis, terstruktur, dan analitis dalam menghadapi masalah sehari-hari",
+            "Memakai komputer untuk menyelesaikan seluruh pekerjaan fisik",
+          ],
+          2,
+        ],
+        [
+          "Kemampuan memecah suatu masalah yang rumit menjadi bagian-bagian yang lebih kecil, sederhana, dan mudah dikelola disebut...",
+          ["Abstraksi", "Dekomposisi", "Pengenalan Pola", "Algoritma"],
+          1,
+        ],
+        [
+          "Proses mengamati kesamaan, keteraturan, atau pola yang berulang di antara masalah atau data disebut...",
+          ["Pengenalan Pola", "Algoritma", "Dekomposisi", "Abstraksi"],
+          0,
+        ],
+        [
+          "Tujuan utama dari proses pengenalan pola dalam pemecahan masalah adalah...",
+          [
+            "Mengabaikan detail kecil yang tidak penting",
+            "Memanfaatkan pengalaman atau solusi masa lalu untuk memecahkan masalah baru",
+            "Membuat instruksi bertahap yang sangat panjang",
+            "Memecah masalah besar menjadi bagian kecil",
+          ],
+          1,
+        ],
+        [
+          "Proses menyaring informasi dengan hanya berfokus pada hal-hal yang penting dan relevan serta mengabaikan detail kecil yang tidak berdampak disebut...",
+          ["Algoritma", "Dekomposisi", "Abstraksi", "Pola data"],
+          2,
+        ],
+        [
+          "Proses merumuskan serangkaian instruksi atau aturan yang terurut, logis, dan jelas secara bertahap disebut...",
+          ["Algoritma", "Abstraksi", "Dekomposisi", "Pengenalan Pola"],
+          0,
+        ],
+        [
+          "Berapa jumlah pilar utama yang membangun konsep berpikir komputasional menurut materi di atas?",
+          ["3 pilar", "4 pilar", "5 pilar", "6 pilar"],
+          1,
+        ],
+        [
+          "Ketika seseorang menghadapi tugas membuat sebuah proyek besar dan membaginya menjadi beberapa modul kecil, ia sedang menerapkan...",
+          ["Algoritma", "Abstraksi", "Dekomposisi", "Pengenalan Pola"],
+          2,
+        ],
+        [
+          "Saat mengabaikan warna dan jenis tinta bolpoin saat sedang mencatat materi penting, kita sedang menerapkan prinsip...",
+          ["Abstraksi", "Dekomposisi", "Algoritma", "Pola berulang"],
+          0,
+        ],
+        [
+          "Menuliskan resep masakan dengan urutan langkah dari menyiapkan bahan, memotong, mencuci, hingga memasak dan menyajikan adalah bentuk penerapan...",
+          ["Abstraksi", "Algoritma", "Dekomposisi", "Pengenalan Pola"],
+          1,
+        ],
+        [
+          "Intisari pembelajaran dari penerapan keempat pilar berpikir komputasional adalah agar masalah serumit apa pun dapat diselesaikan dengan...",
+          [
+            "Lebih cepat, terstruktur, dan hemat tenaga",
+            "Menggunakan bantuan mesin otomatis",
+            "Biaya yang sangat mahal",
+            "Tanpa harus berpikir panjang",
+          ],
+          0,
+        ],
+        [
+          "Saat seorang siswa melihat beberapa soal matematika berbeda namun memiliki rumus dasar yang sama, ia menggunakan kemampuan...",
+          ["Dekomposisi", "Abstraksi", "Pengenalan Pola", "Algoritma"],
+          2,
+        ],
+        [
+          "Dalam kasus merapikan kamar, tindakan mengelompokkan buku pelajaran berdasarkan mata pelajarannya merupakan hasil dari...",
+          ["Pengenalan Pola", "Algoritma", "Abstraksi", "Dekomposisi"],
+          0,
+        ],
+        [
+          "Tindakan mengangkat pakaian kotor ke keranjang cucian sebelum menyapu lantai kamar menunjukkan urutan langkah kerja yang logis, yang disebut...",
+          ["Abstraksi", "Algoritma", "Pengenalan Pola", "Dekomposisi"],
+          1,
+        ],
+        [
+          "Manakah di bawah ini yang merupakan definisi paling tepat dari Dekomposisi?",
+          [
+            "Menyusun instruksi langkah demi langkah",
+            "Memecah masalah besar menjadi bagian-bagian yang lebih kecil dan sederhana",
+            "Mencari kesamaan data dari masa lalu",
+            "Membuang informasi yang tidak relevan",
+          ],
+          1,
+        ],
+        [
+          "Manakah di bawah ini yang paling tepat menggambarkan Abstraksi dalam studi kasus?",
+          [
+            "Menghitung jumlah total barang di kamar",
+            "Mengabaikan detail kecil seperti jenis debu atau merek buku",
+            "Membuat daftar tugas secara berurutan",
+            "Membagi kamar menjadi beberapa sudut ruangan",
+          ],
+          1,
+        ],
+        [
+          "Pendekatan berpikir komputasional dirancang agar proses pemecahan masalah menjadi...",
+          [
+            "Rumit dan lambat",
+            "Efektif, efisien, dan optimal",
+            "Memerlukan perangkat keras tambahan",
+            "Hanya berfokus pada komputer",
+          ],
+          1,
+        ],
+        [
+          "Penggunaan pengalaman atau solusi dari masalah masa lalu untuk memecahkan masalah baru dimungkinkan melalui pilar...",
+          ["Pengenalan Pola", "Algoritma", "Dekomposisi", "Abstraksi"],
+          0,
+        ],
+        [
+          "Pilar berpikir komputasional yang berfokus pada tahapan instruksi terurut step-by-step adalah...",
+          ["Abstraksi", "Algoritma", "Dekomposisi", "Pengenalan Pola"],
+          1,
+        ],
+        [
+          "Berpikir layaknya seorang ilmuwan komputer (computer scientist) dalam menyelesaikan masalah sehari-hari merupakan esensi dari...",
+          [
+            "Berpikir Komputasional",
+            "Pemrograman Dasar",
+            "Pengoperasian Komputer",
+            "Perancangan Perangkat Keras",
+          ],
+          0,
+        ],
+        [
+          "Perangkat keras masukan (hardware input) utama pada komputer atau laptop yang berisi deretan tombol huruf, angka, simbol, dan fungsi kontrol disebut...",
+          ["Monitor", "Mouse", "Keyboard", "Printer"],
+          2,
+        ],
+        [
+          "Susunan huruf pada keyboard standar yang diambil dari enam huruf pertama pada baris teratas disebut...",
+          ["DVORAK", "QWERTY", "AZERTY", "ABCDEF"],
+          1,
+        ],
+        [
+          "Siapakah pencipta tata letak keyboard standar pada tahun 1873 untuk mesin tik mekanik?",
+          [
+            "Charles Babbage",
+            "Christopher Latham Sholes",
+            "Alan Turing",
+            "Bill Gates",
+          ],
+          1,
+        ],
+        [
+          "Apa tujuan awal diciptakannya susunan huruf QWERTY pada mesin tik mekanik?",
+          [
+            "Mempercepat pengetikan hingga kecepatan maksimal",
+            "Mencegah tuas mekanik tersangkut akibat pengetikan huruf berdampingan yang terlalu cepat",
+            "Menyesuaikan alfabet bahasa Inggris secara berurutan",
+            "Mengurangi penggunaan jari kelingking",
+          ],
+          1,
+        ],
+        [
+          "Tombol pada keyboard yang berfungsi untuk menghapus satu karakter di sebelah kiri (sebelum) kursor pengetikan adalah...",
+          ["Delete", "Backspace", "Enter", "Spacebar"],
+          1,
+        ],
+        [
+          "Tombol pada keyboard yang berfungsi untuk menghapus satu karakter di sebelah kanan (setelah) kursor pengetikan atau menghapus objek terpilih adalah...",
+          ["Backspace", "Shift", "Delete", "Esc"],
+          2,
+        ],
+        [
+          "Tombol paling panjang di bagian bawah keyboard yang berfungsi untuk memberikan jarak satu spasi antarkata adalah...",
+          ["Enter", "Shift", "Spacebar", "Caps Lock"],
+          2,
+        ],
+        [
+          "Tombol yang digunakan untuk berpindah ke baris baru (paragraf baru) atau untuk menjalankan/mengonfirmasi perintah adalah...",
+          ["Enter", "Backspace", "Tab", "Spacebar"],
+          0,
+        ],
+        [
+          "Tombol pengunci huruf kapital yang jika aktif akan membuat semua huruf otomatis menjadi huruf besar terus-menerus adalah...",
+          ["Shift", "Caps Lock", "Num Lock", "Insert"],
+          1,
+        ],
+        [
+          "Tombol yang digunakan bersamaan dengan huruf untuk membuat huruf kapital sementara atau menampilkan simbol bagian atas adalah...",
+          ["Ctrl", "Alt", "Shift", "Esc"],
+          2,
+        ],
+        [
+          "Area tombol angka dan operator aritmatika di sisi kanan keyboard yang menyerupai kalkulator disebut...",
+          [
+            "Function Keys",
+            "Numeric Keypad (Numpad)",
+            "Typewriter Keys",
+            "Navigation Keys",
+          ],
+          1,
+        ],
+        [
+          "Tombol fungsi yang terletak di baris paling atas keyboard (F1–F12). Sebagai contoh, tombol F5 umumnya digunakan untuk...",
+          ["Bantuan / Help", "Menyimpan dokumen", "Refresh", "Menghapus teks"],
+          2,
+        ],
+        [
+          "Sekumpulan ikon tombol, perintah, dan fungsi yang terdapat di dalam pita menu (Ribbon) pada Microsoft Word disebut...",
+          ["Toolbar / Tools", "Hardware", "Driver", "Operating System"],
+          0,
+        ],
+        [
+          "Di dalam Microsoft Word, grup pengaturan huruf atau teks (Font Tools) terletak pada tab...",
+          ["Insert", "View", "Home", "References"],
+          2,
+        ],
+        [
+          "Pintasan keyboard Ctrl + B di dalam Microsoft Word berfungsi untuk...",
+          [
+            "Memiringkan teks (Italic)",
+            "Menebalkan teks (Bold)",
+            "Memberi garis bawah (Underline)",
+            "Menyimpan dokumen (Save)",
+          ],
+          1,
+        ],
+        [
+          "Pintasan keyboard Ctrl + I di dalam Microsoft Word digunakan untuk...",
+          [
+            "Menebalkan teks",
+            "Memiringkan teks",
+            "Menyalin teks",
+            "Menempel teks",
+          ],
+          1,
+        ],
+        [
+          "Pintasan keyboard Ctrl + U berfungsi untuk...",
+          [
+            "Memberi garis bawah pada teks (Underline)",
+            "Mengubah warna teks",
+            "Menyorot teks dengan warna latar belakang",
+            "Mengatur ukuran huruf",
+          ],
+          0,
+        ],
+        [
+          "Satuan ukuran yang digunakan untuk menentukan ukuran besar/kecilnya huruf (Font Size) pada Microsoft Word adalah...",
+          ["Inch", "Pixel", "Point (pt)", "Centimeter"],
+          2,
+        ],
+        [
+          "Contoh jenis rupa huruf (Font Style/Family) yang umum digunakan dalam pengolahan kata adalah...",
+          [
+            "Calibri, Times New Roman, Arial",
+            "Bold, Italic, Underline",
+            "Ctrl+C, Ctrl+V, Ctrl+S",
+            "F1, F5, F12",
+          ],
+          0,
+        ],
+        [
+          "Tools pada Microsoft Word yang berfungsi memberi warna latar belakang pada teks layaknya stabilo disebut...",
+          [
+            "Font Color",
+            "Font background / highlight",
+            "Font Size",
+            "Font Family",
+          ],
+          1,
+        ],
+        [
+          "Tombol pintasan Ctrl + C secara umum pada aplikasi komputer (termasuk Microsoft Word) berfungsi untuk...",
+          [
+            "Menyalin (Copy) teks",
+            "Menempel (Paste) teks",
+            "Menyimpan (Save) dokumen",
+            "Memotong (Cut) teks",
+          ],
+          0,
+        ],
+        [
+          "Tombol pintasan Ctrl + V digunakan untuk...",
+          [
+            "Menyalin teks",
+            "Menempelkan teks yang telah disalin atau dipotong",
+            "Membatalkan perintah (Undo)",
+            "Mencetak dokumen",
+          ],
+          1,
+        ],
+        [
+          "Tombol pintasan Ctrl + S berfungsi untuk...",
+          [
+            "Menutup aplikasi",
+            "Menyimpan dokumen",
+            "Membuka dokumen baru",
+            "Mengatur tata letak halaman",
+          ],
+          1,
+        ],
+        [
+          "Bagian tombol pada keyboard yang memuat huruf A sampai Z disebut...",
+          [
+            "Typewriter Keys (Tombol Ketik Utama)",
+            "Numeric Keypad",
+            "Function Keys",
+            "Control Keys",
+          ],
+          0,
+        ],
+        [
+          "Untuk mengetik simbol bagian atas pada suatu tombol angka atau simbol, tombol apa yang harus ditekan bersamaan dengan tombol simbol tersebut?",
+          ["Alt", "Ctrl", "Shift", "Tab"],
+          2,
+        ],
+      ];
+      let round = [],
+        qidx = 0,
+        score = 0,
+        used = [];
+      function pickFive() {
+        let pool = bank.map((_, i) => i).filter((i) => !used.includes(i));
+        if (pool.length < 5) {
+          used = [];
+          pool = bank.map((_, i) => i);
+        }
+        pool.sort(() => Math.random() - 0.5);
+        round = pool.slice(0, 5);
+        used = round.slice();
+      }
+      function startQuiz() {
+        qidx = 0;
+        score = 0;
+        pickFive();
+        drawQuestion();
+      }
+      function drawQuestion() {
+        let [q, opts, a] = bank[round[qidx]],
+          pct = Math.round((qidx / 5) * 100);
+        document.getElementById("quiz-card").innerHTML =
+          '<div class="quiz-meta"><span>Soal ' +
+          (qidx + 1) +
+          " dari 5</span><span>Skor: " +
+          score +
+          '</span></div><div class="progress"><span style="width:' +
+          pct +
+          '%"></span></div><h3 style="font-size:20px;line-height:1.45">' +
+          q +
+          '</h3><div class="answers">' +
+          opts
+            .map(
+              (x, i) =>
+                '<button class="answer" onclick="answer(' +
+                i +
+                ')">' +
+                String.fromCharCode(65 + i) +
+                ". " +
+                x +
+                "</button>",
+            )
+            .join("") +
+          '</div><p class="note">Pilih satu jawaban. Warna hijau menunjukkan jawaban benar, merah menunjukkan jawaban yang dipilih tetapi salah.</p>';
+      }
+      function answer(i) {
+        let [q, opts, a] = bank[round[qidx]];
+        document.querySelectorAll(".answer").forEach((b, n) => {
+          b.disabled = true;
+          if (n === a) b.classList.add("good");
+          if (n === i && i !== a) b.classList.add("bad");
+        });
+        if (i === a) score++;
+        setTimeout(() => {
+          qidx++;
+          qidx < 5 ? drawQuestion() : finishQuiz();
+        }, 700);
+      }
+      function finishQuiz() {
+        document.getElementById("quiz-card").innerHTML =
+          '<div class="score"><div class="note">SESI SELESAI</div><strong>' +
+          score +
+          "/5</strong><p>" +
+          (score === 5
+            ? "Semua jawaban benar. Mantap!"
+            : score >= 3
+              ? "Pemahamanmu sudah cukup baik. Coba lagi untuk meningkatkan skor."
+              : "Baca kembali materi lalu coba lagi.") +
+          '</p><button class="btn primary" onclick="startQuiz()">🔁 Latihan Lagi</button></div>';
+      }
+      function go(id) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((b) => b.classList.toggle("active", b.dataset.page === id));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (id === "quiz" && round.length === 0) startQuiz();
+      }
+      startQuiz();
+    </script>
+  </body>
+</html>
